@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using CoreWebAPP.Models;
+using Microsoft.Extensions.Configuration;
 
 namespace CoreWebAPP.Controllers
 {
@@ -13,14 +14,17 @@ namespace CoreWebAPP.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        private readonly IConfiguration configuration;
+        public HomeController(ILogger<HomeController> logger, IConfiguration confgration)
         {
             _logger = logger;
+            configuration = confgration;
         }
 
         public IActionResult Index()
         {
-            return View();
+            var model = configuration.GetValue<string>("Greeting");
+            return View("Index", model);
         }
 
         public IActionResult Privacy()
